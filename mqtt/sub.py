@@ -24,10 +24,11 @@ class Subscriptor:
 
         def on_message(_, userdata, msg) -> None:
             message = msg.payload.decode()
-            self.client.logger.warning(message)
             self.message_counter += 1
             if self.on_message_callback:
                 self.on_message_callback(message)
+            else:
+                self.client.logger.warning(message)
 
         def on_connect(_, obj, flags, reason_code) -> None:
             if self.client.is_connected():
@@ -70,7 +71,7 @@ class Subscriptor:
         self.client.disconnect()
 
 def custom_callback(msj: str) -> None:
-    print(f"Mensaje recibido - {msj}")
+    print(f"[Callback]: {msj}")
 
 if __name__ == "__main__":
     
