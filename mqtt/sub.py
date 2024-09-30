@@ -70,7 +70,7 @@ class Subscriptor:
         self.client.disconnect()
 
 def custom_callback(msj: str) -> None:
-    print(f"EOEOEOOEOEEO - {msj}")
+    print(f"Mensaje recibido - {msj}")
 
 if __name__ == "__main__":
     
