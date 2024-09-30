@@ -3,10 +3,11 @@ import argparse
 import threading
 import signal
 import random
+import time
 import paho.mqtt.client as paho
 from mqtt import TipoMensaje
 from mqtt.pub import Nodo
-
+from mqtt.config import config
 
 def signal_handler(sig, frame):
     print("Deteniendo nodos...")
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     lista_nodos = [
-        Nodo(i, frecuencia=random.randint(5, 10), stop_event=stop_event)
+        Nodo(i, frecuencia=random.randint(10, 12), stop_event=stop_event)
         for i in range(args.nodos)
     ]
     print(f"{len(lista_nodos)} nodo/s creado/s. Publicando...")
@@ -37,6 +38,7 @@ if __name__ == "__main__":
     for nodo in lista_nodos:
         thread = threading.Thread(
             target=nodo.publicar,
-            args=("test_topic", TipoMensaje.TEMP_T),
+            args=(config.topic, TipoMensaje.TEMP_T),
         )
         thread.start()
+        time.sleep(random.randint(1, 3))
